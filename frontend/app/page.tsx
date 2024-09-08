@@ -185,6 +185,35 @@ function App() {
     </>
   );
 
+  const [apiKey, setApiKey] = useState<string | null>(null);
+
+  const generateApiKey = async () => {
+    try {
+      const response = await fetch(
+        'https://ethonline-2024.vercel.app/api/generateApiKey',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: 'test@test.com',
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to generate API key');
+      }
+
+      const data = await response.json();
+      console.log('Generated API Key:', data.apiKey);
+      setApiKey(data.apiKey);
+    } catch (error) {
+      console.error('Error generating API key:', error);
+    }
+  };
+
   return (
     <div className="container mt-4 mx-auto">
       <div className="flex justify-end gap-2 items-center mb-4">
@@ -192,6 +221,8 @@ function App() {
         <Button onClick={login}>Login</Button>
       </div>
       <div className="grid">{loggedIn && loggedInView}</div>
+      <Button onClick={generateApiKey}>Generate API Key</Button>
+      {apiKey && <p>API Key: {apiKey}</p>}
       <div id="console" style={{ whiteSpace: 'pre-line' }}>
         <p style={{ whiteSpace: 'pre-line' }}></p>
       </div>
