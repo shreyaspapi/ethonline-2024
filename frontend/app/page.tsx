@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 // IMP START - Blockchain Calls
 import RPC from './ethersRPC';
 import { ModeToggle } from '@/components/mode-toggle';
+import { Button } from '@/components/ui/button';
 // import RPC from "./viemRPC";
 // import RPC from "./web3RPC";
 // IMP END - Blockchain Calls
@@ -184,22 +185,18 @@ function App() {
     </>
   );
 
-  const unloggedInView = (
-    <button onClick={login} className="card">
-      Login
-    </button>
-  );
+  const unloggedInView = <Button onClick={login}>Login</Button>;
 
   return (
-    <div className="container">
-      <div className="grid">{loggedIn ? loggedInView : unloggedInView}</div>
-      <div>
+    <div className="container mt-4 mx-auto">
+      <div className="flex justify-end gap-2 items-center mb-4">
         <ModeToggle />
+        <Button onClick={login}>Login</Button>
       </div>
+      <div className="grid">{loggedIn && loggedInView}</div>
       <div id="console" style={{ whiteSpace: 'pre-line' }}>
         <p style={{ whiteSpace: 'pre-line' }}></p>
       </div>
-      <div className="h-10 bg-red-500"></div>
     </div>
   );
 }
