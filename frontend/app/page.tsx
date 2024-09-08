@@ -214,6 +214,30 @@ function App() {
     }
   };
 
+  const getApiKey = async () => {
+    try {
+      const response = await fetch(
+        'https://ethonline-2024.vercel.app/api/getapikey',
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to get API key');
+      }
+
+      const data = await response.json();
+      console.log('Retrieved API Key:', data.apiKey);
+      setApiKey(data.apiKey);
+    } catch (error) {
+      console.error('Error getting API key:', error);
+    }
+  };
+
   return (
     <div className="container mt-4 mx-auto">
       <div className="flex justify-end gap-2 items-center mb-4">
@@ -223,6 +247,7 @@ function App() {
       <div className="grid">{loggedIn && loggedInView}</div>
       <Button onClick={generateApiKey}>Generate API Key</Button>
       {apiKey && <p>API Key: {apiKey}</p>}
+      <Button onClick={getApiKey}>Get API Key</Button>
       <div id="console" style={{ whiteSpace: 'pre-line' }}>
         <p style={{ whiteSpace: 'pre-line' }}></p>
       </div>
