@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
-/* eslint-disable no-console */
-
 'use client';
 
 import { CHAIN_NAMESPACES, IProvider, WEB3AUTH_NETWORK } from '@web3auth/base';
@@ -12,6 +9,7 @@ import { useEffect, useState } from 'react';
 
 // IMP START - Blockchain Calls
 import RPC from './ethersRPC';
+import { ModeToggle } from '@/components/mode-toggle';
 // import RPC from "./viemRPC";
 // import RPC from "./web3RPC";
 // IMP END - Blockchain Calls
@@ -195,6 +193,9 @@ function App() {
   return (
     <div className="container">
       <div className="grid">{loggedIn ? loggedInView : unloggedInView}</div>
+      <div>
+        <ModeToggle />
+      </div>
       <div id="console" style={{ whiteSpace: 'pre-line' }}>
         <p style={{ whiteSpace: 'pre-line' }}></p>
       </div>
