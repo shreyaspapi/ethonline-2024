@@ -1,5 +1,8 @@
 'use client';
 
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+
 import { CHAIN_NAMESPACES, IProvider, WEB3AUTH_NETWORK } from '@web3auth/base';
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider';
 // IMP START - Quick Start
@@ -11,7 +14,16 @@ import { useEffect, useState } from 'react';
 import RPC from './ethersRPC';
 import { ModeToggle } from '@/components/mode-toggle';
 import { Button } from '@/components/ui/button';
-import { ChainSelector } from '@/components/chain-selector';
+import React from 'react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 // import RPC from "./viemRPC";
 // import RPC from "./web3RPC";
 // IMP END - Blockchain Calls
@@ -214,6 +226,82 @@ function App() {
     }
   };
 
+  const deployContract = async (artifact: string, network: string) => {
+    try {
+      const response = await fetch(
+        'https://ethonline-2024.vercel.app/api/deployContract',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            artifact: JSON.parse(artifact),
+            network: network,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to deploy contract');
+      }
+
+      const data = await response.json();
+      console.log('Contract deployed:', data);
+    } catch (error) {
+      console.error('Error deploying contract:', error);
+    }
+  };
+
+  const [chain, setChain] = React.useState('eth_sepo');
+  const ChainSelector = () => {
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline">Select Chain</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56">
+          <DropdownMenuLabel>Chain</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuRadioGroup value={chain} onValueChange={setChain}>
+            <DropdownMenuRadioItem value="eth_sepolia">
+              Ethereum Sepolia
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="arb_sepolia">
+              Arbitrum Sepolia
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="op_sepolia">
+              Optimism Sepolia
+            </DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  };
+
+  const TextareaWithText = () => {
+    const [message, setMessage] = useState('');
+
+    return (
+      <>
+        <div className="grid w-full gap-1.5">
+          <Label htmlFor="message-2">Your Message</Label>
+          <Textarea
+            placeholder="Type your message here."
+            id="message-2"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <p className="text-sm text-muted-foreground">
+            Your message will be copied to the support team.
+          </p>
+        </div>
+        <Button onClick={() => deployContract(message, chain)}>
+          Deploy Contract
+        </Button>
+      </>
+    );
+  };
   const getApiKey = async () => {
     try {
       const response = await fetch(
@@ -252,6 +340,7 @@ function App() {
         <p style={{ whiteSpace: 'pre-line' }}></p>
       </div>
       <ChainSelector />
+      <TextareaWithText />
     </div>
   );
 }
