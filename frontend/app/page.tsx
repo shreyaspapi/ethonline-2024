@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import RPC from './ethersRPC';
 import { ModeToggle } from '@/components/mode-toggle';
 import { Button } from '@/components/ui/button';
+import { ChainSelector } from '@/components/chain-selector';
 // import RPC from "./viemRPC";
 // import RPC from "./web3RPC";
 // IMP END - Blockchain Calls
@@ -50,6 +51,7 @@ const web3auth = new Web3Auth({
 function App() {
   const [provider, setProvider] = useState<IProvider | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [apiKey, setApiKey] = useState<string | null>(null);
 
   useEffect(() => {
     const init = async () => {
@@ -185,8 +187,6 @@ function App() {
     </>
   );
 
-  const [apiKey, setApiKey] = useState<string | null>(null);
-
   const generateApiKey = async () => {
     try {
       const response = await fetch(
@@ -251,6 +251,7 @@ function App() {
       <div id="console" style={{ whiteSpace: 'pre-line' }}>
         <p style={{ whiteSpace: 'pre-line' }}></p>
       </div>
+      <ChainSelector />
     </div>
   );
 }
