@@ -24,6 +24,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import Dashboard from '@/components/dashboard-02';
 // import RPC from "./viemRPC";
 // import RPC from "./web3RPC";
 // IMP END - Blockchain Calls
@@ -65,24 +66,24 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [apiKey, setApiKey] = useState<string | null>(null);
 
-  useEffect(() => {
-    const init = async () => {
-      try {
-        // IMP START - SDK Initialization
-        await web3auth.initModal();
-        // IMP END - SDK Initialization
-        setProvider(web3auth.provider);
+  // useEffect(() => {
+  //   const init = async () => {
+  //     try {
+  //       // IMP START - SDK Initialization
+  //       await web3auth.initModal();
+  //       // IMP END - SDK Initialization
+  //       setProvider(web3auth.provider);
 
-        if (web3auth.connected) {
-          setLoggedIn(true);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  //       if (web3auth.connected) {
+  //         setLoggedIn(true);
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
-    init();
-  }, []);
+  //   init();
+  // }, []);
 
   const login = async () => {
     // IMP START - Login
@@ -228,29 +229,29 @@ function App() {
 
   const deployContract = async (artifact: string, network: string) => {
     try {
-      const response = await fetch('http://localhost:3000/api/deployContract', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          artifact: JSON.parse(artifact),
-          network: network,
-        }),
-      });
-      // const response = await fetch(
-      //   'https://ethonline-2024.vercel.app/api/deployContract',
-      //   {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify({
-      //       artifact: JSON.parse(artifact),
-      //       network: network,
-      //     }),
-      //   }
-      // );
+      // const response = await fetch('http://localhost:3000/api/deployContract', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     artifact: JSON.parse(artifact),
+      //     network: network,
+      //   }),
+      // });
+      const response = await fetch(
+        'https://ethonline-2024.vercel.app/api/deployContract',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            artifact: JSON.parse(artifact),
+            network: network,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error('Failed to deploy contract');
@@ -337,8 +338,8 @@ function App() {
   };
 
   return (
-    <div className="container mt-4 mx-auto">
-      <div className="flex justify-end gap-2 items-center mb-4">
+    <div className="">
+      {/* <div className="flex justify-end gap-2 items-center mb-4">
         <ModeToggle />
         <Button onClick={login}>Login</Button>
       </div>
@@ -350,7 +351,8 @@ function App() {
         <p style={{ whiteSpace: 'pre-line' }}></p>
       </div>
       <ChainSelector />
-      <TextareaWithText />
+      <TextareaWithText /> */}
+      <Dashboard />
     </div>
   );
 }
