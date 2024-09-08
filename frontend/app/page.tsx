@@ -228,19 +228,29 @@ function App() {
 
   const deployContract = async (artifact: string, network: string) => {
     try {
-      const response = await fetch(
-        'https://ethonline-2024.vercel.app/api/deployContract',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            artifact: JSON.parse(artifact),
-            network: network,
-          }),
-        }
-      );
+      const response = await fetch('http://localhost:3000/api/deployContract', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          artifact: JSON.parse(artifact),
+          network: network,
+        }),
+      });
+      // const response = await fetch(
+      //   'https://ethonline-2024.vercel.app/api/deployContract',
+      //   {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify({
+      //       artifact: JSON.parse(artifact),
+      //       network: network,
+      //     }),
+      //   }
+      // );
 
       if (!response.ok) {
         throw new Error('Failed to deploy contract');
@@ -253,7 +263,7 @@ function App() {
     }
   };
 
-  const [chain, setChain] = React.useState('eth_sepo');
+  const [chain, setChain] = React.useState('eth_sepolia');
   const ChainSelector = () => {
     return (
       <DropdownMenu>

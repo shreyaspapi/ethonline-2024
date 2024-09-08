@@ -9,7 +9,10 @@ export async function POST(request: NextRequest) {
   const { artifact, network } = await request.json();
 
   if (!artifact || !artifact.bytecode || !artifact.abi) {
-    return NextResponse.json({ message: 'Invalid contract artifact' }, { status: 400 });
+    return NextResponse.json(
+      { message: 'Invalid contract artifact' },
+      { status: 400 }
+    );
   }
 
   try {
@@ -17,10 +20,14 @@ export async function POST(request: NextRequest) {
     const privateKey = process.env.PRIVATE_KEY;
     if (!privateKey) throw new Error('PRIVATE_KEY is not set');
     const wallet = new ethers.Wallet(privateKey, provider);
-    const factory = new ethers.ContractFactory(artifact.abi, artifact.bytecode, wallet);
+    const factory = new ethers.ContractFactory(
+      artifact.abi,
+      artifact.bytecode,
+      wallet
+    );
 
     const contract = await factory.deploy();
-    await contract.waitForDeployment();
+    // await contract.waitForDeployment();
 
     return NextResponse.json({
       contractAddress: await contract.getAddress(),
@@ -28,10 +35,13 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Deployment failed:', error);
-    return NextResponse.json({
-      message: 'Deployment failed',
-      error: error instanceof Error ? error.message : String(error)
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        message: 'Deployment failed',
+        error: error instanceof Error ? error.message : String(error),
+      },
+      { status: 500 }
+    );
   }
 }
 
