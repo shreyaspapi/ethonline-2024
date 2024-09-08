@@ -39,7 +39,7 @@ import RPC from '../app/ethersRPC';
 
 // Web3Auth configuration
 const clientId =
-  'BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ';
+  'BLbCXyNiOGrarAnvaWr3lyW3YeTH8EI9NHIA8mlFrPQaGcX2SVnPnGU67I54R5bnIXippsBruZDcqFc1A9PY0Ng';
 const chainConfig = {
   chainNamespace: CHAIN_NAMESPACES.EIP155,
   chainId: '0xaa36a7',
