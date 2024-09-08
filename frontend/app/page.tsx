@@ -185,8 +185,6 @@ function App() {
     </>
   );
 
-  const unloggedInView = <Button onClick={login}>Login</Button>;
-
   return (
     <div className="container mt-4 mx-auto">
       <div className="flex justify-end gap-2 items-center mb-4">
